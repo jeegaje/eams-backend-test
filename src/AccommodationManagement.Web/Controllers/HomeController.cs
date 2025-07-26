@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using AccommodationManagement.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using AccommodationManagement.Web.Models;
 using AccommodationManagement.Web.Services;
@@ -21,8 +22,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Users()
     {
-        var response = await _bffService.GetUsersAsync();
-        return View(response.Data);
+        var users = await _bffService.GetAllUsersAsync();
+        return View(users);
     }
 
     public IActionResult Privacy()

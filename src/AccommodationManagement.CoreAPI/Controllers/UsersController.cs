@@ -1,29 +1,32 @@
+using AccommodationManagement.CoreAPI.Mappers;
 using AccommodationManagement.Domain.DTOs;
-using AccommodationManagement.Infrastructure.Data;
-using AutoMapper;
+using AccommodationManagement.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AccommodationManagement.CoreAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseController
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
+        private readonly IUserService _userService;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(AppDbContext context, IMapper mapper)
+        public UsersController(
+            IUserService userService,
+            ILogger<UsersController> logger
+        )
         {
-            _context = context;
-            _mapper = mapper;
+            _userService = userService;
+            _logger = logger;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
-             var users = await _context.Users.ToListAsync();
-            return Ok(_mapper.Map<IEnumerable<UserDto>>(users));
+            var users = await _userService.GetAllUsersAsync();
+            return CreateResponse(users.ToDto(), "Users retrieved successfully");
         }
     }
 }

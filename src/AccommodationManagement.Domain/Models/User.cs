@@ -5,12 +5,8 @@ namespace AccommodationManagement.Domain.Models
 {
     public class User : BaseEntity
     {
-        [Required]
-        [MaxLength(100)]
         public string FirstName { get; set; } = string.Empty;
 
-        [Required]
-        [MaxLength(100)]
         public string LastName { get; set; } = string.Empty;
 
         public UserRole Role { get; set; } = UserRole.User;
@@ -31,7 +27,7 @@ namespace AccommodationManagement.Domain.Models
         public bool IsAdmin => Role >= UserRole.RestrictedAdmin;
 
         public bool IsManager => Role >= UserRole.Manager;
-
+        
         public bool IsPasswordExpired(int expiryDays = 500)
         {
             if (!PasswordChangedAt.HasValue) return true;

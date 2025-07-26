@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 // HTTP Client for Core API
 builder.Services.AddHttpClient<ICoreApiService, CoreApiService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7002"); // Core API URL
+    client.BaseAddress = new Uri("http://localhost:5002"); // Core API URL
     client.Timeout = TimeSpan.FromSeconds(30);
 });
 
@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("MVCPolicy", policy =>
     {
-        policy.WithOrigins("https://localhost:7000") // MVC URL
+        policy.WithOrigins("http://localhost:5000") // MVC URL
               .AllowAnyMethod()
               .AllowAnyHeader();
     });

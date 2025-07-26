@@ -1,52 +1,46 @@
 using System.Text.Json;
 using AccommodationManagement.Domain.DTOs;
 using AccommodationManagement.Domain.Models;
+using Microsoft.Extensions.Logging;
 
 namespace AccommodationManagement.Web.Services
 {
     public class BffService : IBffService
     {
         private readonly HttpClient _httpClient;
+        private readonly ILogger<BffService> _logger;
 
-        public BffService(HttpClient httpClient)
+        public BffService(HttpClient httpClient, ILogger<BffService> logger)
         {
             _httpClient = httpClient;
+            _logger = logger;
         }
 
-        public async Task<BffResponse<IEnumerable<UserDto>>> GetUsersAsync()
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var response = await _httpClient.GetAsync("bff/users");
-                response.EnsureSuccessStatusCode();
+                var response = await _httpClient.GetAsync("bff/users", cancellationToken);
 
-                var json = await response.Content.ReadAsStringAsync();
-                var result = JsonSerializer.Deserialize<BffResponse<IEnumerable<UserDto>>>(json, new JsonSerializerOptions
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync(cancellationToken);
+                    _logger.LogWarning("Failed to fetch users data. StatusCode: {StatusCode}, Response: {Response}", response.StatusCode, error);
+
+                    response.EnsureSuccessStatusCode();
+                }
+
+                var json = await response.Content.ReadFromJsonAsync<ApiResponse<IEnumerable<UserDto>>>(new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
-                });
+                }, cancellationToken);
 
-                return result;
-            }
-            catch (HttpRequestException ex)
-            {
-                // Handle HTTP errors
-                return new BffResponse<IEnumerable<UserDto>>
-                {
-                    Success = false,
-                    Message = $"HTTP Error: {ex.Message}",
-                    Data = Enumerable.Empty<UserDto>()
-                };
+                return json?.Data ?? Enumerable.Empty<UserDto>();
             }
             catch (JsonException ex)
             {
-                // Handle JSON deserialization errors
-                return new BffResponse<IEnumerable<UserDto>>
-                {
-                    Success = false,
-                    Message = $"JSON Error: {ex.Message}",
-                    Data = Enumerable.Empty<UserDto>()
-                };
+                _logger.LogError(ex, "Error occurred while retrieving users data.");
+                throw;
             }
         }
     }

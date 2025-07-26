@@ -5,6 +5,6 @@ namespace AccommodationManagement.Web.Services
 {
     public interface IBffService
     {
-        Task<BffResponse<IEnumerable<UserDto>>> GetUsersAsync();
+        Task<IEnumerable<UserDto>> GetAllUsersAsync(CancellationToken cancellationToken = default);
     }
 }

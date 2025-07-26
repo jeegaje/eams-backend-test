@@ -4,20 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AccommodationManagement.BFF.Controllers
 {
+    [ApiController]
     [Route("bff/[controller]")]
-    public class ApiController : ControllerBase
+    public class UsersController(ICoreApiService coreApiService) : ControllerBase
     {
-        private readonly ICoreApiService _coreApiService;
-
-        public ApiController(ICoreApiService coreApiService)
-        {
-            _coreApiService = coreApiService;
-        }
+        private readonly ICoreApiService _coreApiService = coreApiService;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _coreApiService.GetUsersAsync();
+            var users = await _coreApiService.GetAllUsersAsync();
 
             var frontendResponse = new
             {

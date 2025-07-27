@@ -1,0 +1,6 @@
+@EAMS.BFF_HostAddress = http://localhost:5190
+
+GET {{EAMS.BFF_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

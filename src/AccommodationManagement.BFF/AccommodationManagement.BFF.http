@@ -1,6 +1,0 @@
-@AccommodationManagement.BFF_HostAddress = http://localhost:5190
-
-GET {{AccommodationManagement.BFF_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

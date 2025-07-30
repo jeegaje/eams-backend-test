@@ -93,7 +93,13 @@ Server=127.0.0.1,1433;Database=AccommodationDb;User Id=sa;Password=Masuklah#1;Tr
    dotnet build
    ```
 
-4. **Update database (if needed)**
+4. **Restore local tool**
+
+   ```bash
+   dotnet tool restore
+   ```
+
+5. **Update database (if needed)**
    ```bash
    cd src/EAMS.CoreAPI
    dotnet ef database update

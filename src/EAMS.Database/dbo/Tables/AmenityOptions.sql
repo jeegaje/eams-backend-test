@@ -1,0 +1,13 @@
+﻿CREATE TABLE AmenityOptions (
+    Id BIGINT IDENTITY PRIMARY KEY,
+    Name NVARCHAR(255) NOT NULL,
+    AmenityId BIGINT NOT NULL,
+    CreatedAt DATETIME2 NOT NULL,
+    UpdatedAt DATETIME2 NOT NULL,
+    DisplayText NVARCHAR(255) NOT NULL,
+    Icon NVARCHAR(255) NOT NULL,
+    Color NVARCHAR(255) NOT NULL,
+
+    CONSTRAINT FK_AmenityOptions_Amenities FOREIGN KEY (AmenityId) REFERENCES Amenities(Id)
+);
+

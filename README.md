@@ -52,6 +52,7 @@ The EAMS-BFF is a .NET Core-based intermediate API layer designed to serve the E
 ---
 
 ## 📁 Project Structure
+
 EAMS.API/                          # Main Web API project (BFF + Core API)
 ├── Controllers/                   # API endpoints
 ├── Middleware/                    # Custom middleware (e.g., error handling, logging)
@@ -74,15 +75,28 @@ EAMS.Infrastructure/              # Data access and external integrations
 ├── DataContext/                  # EF DbContext
 ├── Identity/                     # Azure Entra ID integration
 ├── KeyVault/                     # Secure secret retrieval
+├── Migrations/					  # EF Core migrations
 ├── EAMS.Infrastructure.csproj
-
-EAMS.Database/                    # Database project for schema and migrations
-├── Migrations/                   # EF Core migrations
-├── Scripts/                      # SQL scripts (optional)
-├── EAMS.Database.csproj
 
 EAMS.Tests/                       # Unit and integration tests
 ├── EAMS.Domain.Tests/            # Domain layer tests
 ├── EAMS.Tests.csproj
 
 README.md                         # Project documentation
+
+# 📦 EF Core Components
+
+
+## 🧱 DbContext Configuration
+
+Located in `EAMS.Infrastructure/DataContext/EamsDbContext.cs`:
+
+## 🧱 Migrations
+
+```
+# To add a migration
+dotnet ef migrations add [MigrationName] --project src\EAMS.Infrastructure --startup-project src\EAMS.API
+
+# To update database
+dotnet ef database update --project src\EAMS.Infrastructure --startup-project src\EAMS.API
+```

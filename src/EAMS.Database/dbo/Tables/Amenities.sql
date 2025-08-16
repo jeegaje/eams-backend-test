@@ -1,8 +1,0 @@
-﻿CREATE TABLE Amenities (
-    Id BIGINT IDENTITY PRIMARY KEY,
-    Name NVARCHAR(255) NOT NULL,
-    AmenityType NVARCHAR(255) NOT NULL,
-    CreatedAt DATETIME2 NOT NULL,
-    UpdatedAt DATETIME2 NOT NULL,
-    HelpText NVARCHAR(MAX)
-);

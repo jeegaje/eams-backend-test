@@ -1,6 +1,0 @@
-@EAMS.CoreAPI_HostAddress = http://localhost:5085
-
-GET {{EAMS.CoreAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

@@ -1,11 +1,18 @@
 namespace EAMS.Domain.Entities.Enums;
 public enum AccommodationType
 {
-    Motel,
     Hotel,
-    Backpacker,
-    Caravan,
-    Other
+    ApartmentHotel,
+    CaravanPark,
+    Homestay,
+    Hostel,
+    MotelOrMotorInn,
+    RoomingHouse,
+    RoomingHouseUnregistered,
+    ServicedApartment,
+    SingleUnit,
+    SRSPensionLevel,
+    SRSAbovePensionLevel
 }
 
 public enum Density
@@ -17,17 +24,31 @@ public enum Density
 
 public enum Region
 {
-    Metropolitan,
-    Regional,
-    Remote
+    Barwon,
+    BaysidePeninsula,
+    BrimbankMelton,
+    CentralHighlands,
+    InnerEasternMelbourne,
+    OuterEasternMelbourne,
+    InnerGippsland,
+    OuterGippsland,
+    Goulburn,
+    HumeMerriBek,
+    Loddon,
+    Mallee,
+    MelbourneCBD,
+    NorthEasternMelbourne,
+    OvensMurray,
+    SouthernMelbourne,
+    OuterWesternDistrict,
+    WesternMelbourne
 }
 
 public enum Duration
 {
-    ShortTerm,
-    MediumTerm,
-    LongTerm,
-    Permanent
+    SingleTermStay,
+    ShortTermStay,
+    LongTermStay
 }
 
 public enum AmenityType

@@ -1,6 +1,8 @@
 using EAMS.API.Configurations;
 using EAMS.API.Middleware;
 using EAMS.Infrastructure.Data;
+using EAMS.Infrastructure.Repositories;
+using EAMS.Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.ApplicationInsights.AspNetCore;
 using Microsoft.Extensions.Logging.ApplicationInsights;
@@ -22,6 +24,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<EamsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IAccommodationRepository, AccommodationRepository>();
 
 builder.Logging.AddApplicationInsights(
         configureTelemetryConfiguration: (config) =>

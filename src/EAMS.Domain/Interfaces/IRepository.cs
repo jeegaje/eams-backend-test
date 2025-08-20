@@ -11,7 +11,7 @@ namespace EAMS.Domain.Interfaces
         // Write operations
         Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
         Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default);
-        Task DeleteAsync(Int64 id, CancellationToken cancellationToken = default);
+        Task<bool> DeleteAsync(Int64 id, CancellationToken cancellationToken = default);
         Task<bool> ExistsAsync(Int64 id, CancellationToken cancellationToken = default);
 
         // Unit of work

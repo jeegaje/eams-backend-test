@@ -147,20 +147,20 @@ namespace EAMS.API.Controllers
         /// Delete an accommodation
         /// </summary>
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAccommodation(Int64 id, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<bool>> DeleteAccommodation(Int64 id, CancellationToken cancellationToken = default)
         {
             try
             {
                 var exists = await _accommodationRepository.ExistsAsync(id, cancellationToken);
                 if (!exists)
                 {
-                    return NotFound($"Accommodation with ID {id} not found");
+                    return NotFound(false);
                 }
 
-                await _accommodationRepository.DeleteAsync(id, cancellationToken);
+                var result = await _accommodationRepository.DeleteAsync(id, cancellationToken);
                 await _accommodationRepository.SaveChangesAsync(cancellationToken);
 
-                return NoContent();
+                return Ok(result);
             }
             catch (Exception ex)
             {

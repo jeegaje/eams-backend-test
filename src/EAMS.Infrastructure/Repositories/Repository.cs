@@ -55,13 +55,14 @@ namespace EAMS.Infrastructure.Repositories
             return existingEntity;
         }
 
-        public virtual async Task DeleteAsync(Int64 id, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> DeleteAsync(Int64 id, CancellationToken cancellationToken = default)
         {
             var entity = await GetByIdAsync(id, cancellationToken);
             if (entity == null)
-                throw new InvalidOperationException($"Entity with ID {id} not found.");
+                return false;
 
             _dbSet.Remove(entity);
+            return true;
         }
 
         public virtual async Task<bool> ExistsAsync(Int64 id, CancellationToken cancellationToken = default)

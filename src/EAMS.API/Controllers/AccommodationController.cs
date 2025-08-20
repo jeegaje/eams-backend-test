@@ -5,6 +5,7 @@ using EAMS.API.DTOs;
 using EAMS.Domain.Interfaces;
 using EAMS.Domain.Entities;
 using EAMS.Domain.Entities.Enums;
+using AutoMapper;
 
 namespace EAMS.API.Controllers
 {
@@ -16,26 +17,29 @@ namespace EAMS.API.Controllers
     {
         private readonly IAccommodationRepository _accommodationRepository;
         private readonly ILogger<AccommodationController> _logger;
+        private readonly IMapper _mapper;
 
         public AccommodationController(
             IAccommodationRepository accommodationRepository,
-            ILogger<AccommodationController> logger)
+            ILogger<AccommodationController> logger,
+            IMapper mapper)
         {
             _accommodationRepository = accommodationRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
         /// Get all accommodations
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AccommodationResponseDto>>> GetAccommodations(CancellationToken cancellationToken = default)
+        public async Task<ActionResult<IEnumerable<AccommodationDto>>> GetAccommodations(CancellationToken cancellationToken = default)
         {
             try
             {
                 var accommodations = await _accommodationRepository.GetAllAsync(cancellationToken);
 
-                var response = accommodations.Select(MapToResponseDto);
+                var response = _mapper.Map<IEnumerable<AccommodationDto>>(accommodations);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -49,7 +53,7 @@ namespace EAMS.API.Controllers
         /// Get accommodation by ID
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<ActionResult<AccommodationResponseDto>> GetAccommodation(
+        public async Task<ActionResult<AccommodationDto>> GetAccommodation(
             Int64 id,
             CancellationToken cancellationToken = default)
         {
@@ -62,7 +66,8 @@ namespace EAMS.API.Controllers
                     return NotFound($"Accommodation with ID {id} not found");
                 }
 
-                return Ok(MapToResponseDto(accommodation));
+                var response = _mapper.Map<AccommodationDto>(accommodation);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -75,8 +80,8 @@ namespace EAMS.API.Controllers
         /// Create a new accommodation
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult<AccommodationResponseDto>> CreateAccommodation(
-            AccommodationCreateDto createDto,
+        public async Task<ActionResult<AccommodationDto>> CreateAccommodation(
+            AccommodationDto accommodationDto,
             CancellationToken cancellationToken = default)
         {
             try
@@ -86,13 +91,13 @@ namespace EAMS.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var accommodation = MapToEntity(createDto);
+                var accommodation = _mapper.Map<Accommodation>(accommodationDto);
                 
                 var createdAccommodation = await _accommodationRepository.AddAsync(accommodation, cancellationToken);
                 await _accommodationRepository.SaveChangesAsync(cancellationToken);
 
-                var response = MapToResponseDto(createdAccommodation);
-                return CreatedAtAction(nameof(GetAccommodation), new { id = response.Id }, response);
+                var response = _mapper.Map<AccommodationDto>(createdAccommodation);
+                return CreatedAtAction(nameof(GetAccommodation), new { id = createdAccommodation.Id }, response);
             }
             catch (Exception ex)
             {
@@ -105,9 +110,9 @@ namespace EAMS.API.Controllers
         /// Update an existing accommodation
         /// </summary>
         [HttpPut("{id}")]
-        public async Task<ActionResult<AccommodationResponseDto>> UpdateAccommodation(
+        public async Task<ActionResult<AccommodationDto>> UpdateAccommodation(
             Int64 id,
-            AccommodationUpdateDto updateDto,
+            AccommodationDto accommodationDto,
             CancellationToken cancellationToken = default)
         {
             try
@@ -123,12 +128,12 @@ namespace EAMS.API.Controllers
                     return NotFound($"Accommodation with ID {id} not found");
                 }
 
-                var updatedAccommodation = MapToEntity(updateDto, id);
+                var updatedAccommodation = _mapper.Map<Accommodation>(accommodationDto);
                 
                 var result = await _accommodationRepository.UpdateAsync(updatedAccommodation, cancellationToken);
                 await _accommodationRepository.SaveChangesAsync(cancellationToken);
 
-                var response = MapToResponseDto(result);
+                var response = _mapper.Map<AccommodationDto>(result);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -162,79 +167,6 @@ namespace EAMS.API.Controllers
                 _logger.LogError(ex, "Error deleting accommodation with ID {Id}", id);
                 return StatusCode(500, "An error occurred while deleting the accommodation");
             }
-        }
-
-        private static AccommodationResponseDto MapToResponseDto(Accommodation accommodation)
-        {
-            return new AccommodationResponseDto
-            {
-                Id = accommodation.Id,
-                Name = accommodation.Name,
-                Street = accommodation.Street,
-                Suburb = accommodation.Suburb,
-                Postcode = accommodation.Postcode,
-                State = accommodation.State,
-                Region = accommodation.Region,
-                Phone = accommodation.Phone,
-                Email = accommodation.Email,
-                Website = accommodation.Website,
-                AccommodationType = accommodation.AccommodationType,
-                Density = accommodation.Density,
-                Duration = accommodation.Duration,
-                Inactive = accommodation.Inactive,
-                CreatedAt = accommodation.CreatedAt,
-                UpdatedAt = accommodation.UpdatedAt,
-                Amenities = accommodation.Amenities?.Select(a => new AmenityResponseDto
-                {
-                    Id = a.Id,
-                    Name = a.Name,
-                    AmenityType = a.AmenityType,
-                    HelpText = a.HelpText
-                }).ToList() ?? new List<AmenityResponseDto>()
-            };
-        }
-
-        private static Accommodation MapToEntity(AccommodationCreateDto createDto)
-        {
-            return new Accommodation
-            {
-                Name = createDto.Name,
-                Street = createDto.Street,
-                Suburb = createDto.Suburb,
-                Postcode = createDto.Postcode,
-                State = createDto.State,
-                Region = createDto.Region,
-                Phone = createDto.Phone,
-                Email = createDto.Email,
-                Website = createDto.Website,
-                AccommodationType = createDto.AccommodationType,
-                Density = createDto.Density,
-                Duration = createDto.Duration,
-                Inactive = createDto.Inactive,
-                Amenities = new List<Amenity>()
-            };
-        }
-
-        private static Accommodation MapToEntity(AccommodationUpdateDto updateDto, Int64 id)
-        {
-            return new Accommodation
-            {
-                Id = id,
-                Name = updateDto.Name,
-                Street = updateDto.Street,
-                Suburb = updateDto.Suburb,
-                Postcode = updateDto.Postcode,
-                State = updateDto.State,
-                Region = updateDto.Region,
-                Phone = updateDto.Phone,
-                Email = updateDto.Email,
-                Website = updateDto.Website,
-                AccommodationType = updateDto.AccommodationType,
-                Density = updateDto.Density,
-                Duration = updateDto.Duration,
-                Inactive = updateDto.Inactive,
-                Amenities = new List<Amenity>()
-            };
         }
     }
 }

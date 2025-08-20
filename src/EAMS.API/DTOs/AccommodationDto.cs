@@ -3,7 +3,7 @@ using EAMS.Domain.Entities.Enums;
 
 namespace EAMS.API.DTOs
 {
-    public class AccommodationUpdateDto
+    public class AccommodationDto
     {
         [Required(ErrorMessage = "Name is required")]
         [StringLength(200, ErrorMessage = "Name cannot exceed 200 characters")]

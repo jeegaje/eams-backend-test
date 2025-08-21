@@ -9,8 +9,7 @@ namespace EAMS.API.Mappings
     {
         public AccommodationProfile()
         {
-            CreateMap<Accommodation, AccommodationDto>();
-            CreateMap<AccommodationDto, Accommodation>();
+            CreateMap<Accommodation, AccommodationDto>().ReverseMap();
         }
     }
 }

@@ -1,0 +1,65 @@
+@EAMS.API_HostAddress = http://localhost:5226
+
+GET {{EAMS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+### Test Accommodation CRUD Operations
+
+### Get all accommodations
+GET {{EAMS.API_HostAddress}}/api/accommodation
+Accept: application/json
+
+### Get accommodation by ID
+GET {{EAMS.API_HostAddress}}/api/accommodation/1
+Accept: application/json
+
+### Get accommodation by ID with amenities
+GET {{EAMS.API_HostAddress}}/api/accommodation/1?includeAmenities=true
+Accept: application/json
+
+### Create new accommodation
+POST {{EAMS.API_HostAddress}}/api/accommodation
+Content-Type: application/json
+
+{
+  "name": "Test Hotel",
+  "street": "123 Test Street",
+  "suburb": "Test Suburb",
+  "postcode": "1234",
+  "state": "NSW",
+  "region": "Metropolitan",
+  "phone": "0412345678",
+  "email": "test@testhotel.com",
+  "website": "https://testhotel.com",
+  "accommodationType": "Hotel",
+  "density": "Medium",
+  "duration": "ShortTerm",
+  "inactive": false,
+  "amenityIds": []
+}
+
+### Update accommodation
+PUT {{EAMS.API_HostAddress}}/api/accommodation/1
+Content-Type: application/json
+
+{
+  "name": "Updated Test Hotel",
+  "street": "456 Updated Street",
+  "suburb": "Updated Suburb",
+  "postcode": "5678",
+  "state": "VIC",
+  "region": "Regional",
+  "phone": "0487654321",
+  "email": "updated@testhotel.com",
+  "website": "https://updatedtesthotel.com",
+  "accommodationType": "Motel",
+  "density": "Low",
+  "duration": "MediumTerm",
+  "inactive": false,
+  "amenityIds": []
+}
+
+### Delete accommodation
+DELETE {{EAMS.API_HostAddress}}/api/accommodation/1

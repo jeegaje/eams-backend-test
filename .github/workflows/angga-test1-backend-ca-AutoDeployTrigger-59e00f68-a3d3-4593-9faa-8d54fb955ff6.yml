@@ -13,6 +13,9 @@ on:
   # Allow manual trigger 
   workflow_dispatch:      
 
+env: 
+  name: STAGING
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -23,6 +26,13 @@ jobs:
     steps:
       - name: Checkout to the branch
         uses: actions/checkout@v2
+
+      - name: Run EF Core Migrations
+        run: |
+          dotnet tool install --global dotnet-ef
+          dotnet ef database update --project src/EAMS.Infrastructure --startup-project src/EAMS.API
+        env:
+          ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
 
       - name: Azure Login
         uses: azure/login@v2
@@ -45,5 +55,6 @@ jobs:
           imageToBuild: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
 
 

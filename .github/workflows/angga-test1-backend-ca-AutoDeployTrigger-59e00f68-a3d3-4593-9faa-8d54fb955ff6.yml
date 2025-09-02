@@ -13,12 +13,10 @@ on:
   # Allow manual trigger 
   workflow_dispatch:      
 
-env: 
-  name: STAGING
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: STAGING
     permissions: 
       id-token: write #This is required for requesting the OIDC JWT Token
       contents: read #Required when GH token is used to authenticate with private repo
@@ -56,6 +54,7 @@ jobs:
           imageToBuild: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
 
 
 

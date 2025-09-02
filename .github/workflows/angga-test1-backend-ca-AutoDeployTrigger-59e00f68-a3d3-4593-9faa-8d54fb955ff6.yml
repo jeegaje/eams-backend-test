@@ -30,6 +30,7 @@ jobs:
       - name: Run EF Core Migrations
         run: |
           dotnet tool install --global dotnet-ef
+          dotnet tool restore
           dotnet ef database update --project src/EAMS.Infrastructure --startup-project src/EAMS.API
         env:
           ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
@@ -55,6 +56,7 @@ jobs:
           imageToBuild: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
 
 
 

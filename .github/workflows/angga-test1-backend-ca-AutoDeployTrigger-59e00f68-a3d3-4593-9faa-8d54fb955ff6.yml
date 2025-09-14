@@ -38,6 +38,10 @@ jobs:
           tenant-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_SUBSCRIPTION_ID }}
 
+      - name: Login to Azure Container Registry with proper authentication
+        run: |
+          az acr login --name anggacontainerregistry
+
       - name: Build and push Docker images with multiple tags
         run: |
           docker build \
@@ -54,6 +58,7 @@ jobs:
           containerAppName: angga-test1-backend-ca
           resourceGroup: angga-test1-rg
           imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:latest
+
 
 
 

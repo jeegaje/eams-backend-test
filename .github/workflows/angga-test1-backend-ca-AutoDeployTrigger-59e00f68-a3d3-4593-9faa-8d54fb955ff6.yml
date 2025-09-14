@@ -46,7 +46,7 @@ jobs:
         run: |
           docker build \
             -t anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }} \
-            -t anggacontainerregistry.azurecr.io/angga-test1-backend-ca:latest \
+            -t anggacontainerregistry.azurecr.io/angga-test1-backend-ca:latest-development \
             .
     
           docker push anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
@@ -57,7 +57,8 @@ jobs:
         with:
           containerAppName: angga-test1-backend-ca
           resourceGroup: angga-test1-rg
-          imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:latest
+          imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
+
 
 
 

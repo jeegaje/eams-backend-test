@@ -38,23 +38,22 @@ jobs:
           tenant-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Build and push container image to registry
+      - name: Build and push Docker images with multiple tags
+        run: |
+          docker build \
+            -t anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }} \
+            -t anggacontainerregistry.azurecr.io/angga-test1-backend-ca:latest \
+    
+          docker push anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
+          docker push anggacontainerregistry.azurecr.io/angga-test1-backend-ca:latest
+
+      - name: Deploy latest image to Container App
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}
-          _dockerfilePathKey_: _dockerfilePath_
-          _targetLabelKey_: _targetLabel_
-          registryUrl: anggacontainerregistry.azurecr.io
-          registryUsername: ${{ secrets.ANGGATEST1BACKENDCA_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.ANGGATEST1BACKENDCA_REGISTRY_PASSWORD }}
           containerAppName: angga-test1-backend-ca
           resourceGroup: angga-test1-rg
-          imageToBuild: |
-            anggacontainerregistry.azurecr.io/angga-test1-backend-ca:latest
-            anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
           imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:latest
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
+
 
 
 

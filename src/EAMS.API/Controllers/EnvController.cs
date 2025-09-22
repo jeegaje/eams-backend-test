@@ -10,21 +10,13 @@ namespace AMS.API.Controllers
         [HttpGet]
         public IActionResult GetEnv()
         {
-            var envVars = Environment.GetEnvironmentVariables();
-            var dict = new Dictionary<string, string?>();
-
-            foreach (DictionaryEntry entry in envVars)
-            {
-                dict[entry.Key.ToString()!] = entry.Value?.ToString();
-            }
-
-            return Ok(dict);
+            return Ok("hello world");
         }
         
         [HttpGet("test")]
         public IActionResult Test()
         {
-            return Ok("hello world");
+            return Ok("hello world Test");
         }
     }
 }

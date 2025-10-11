@@ -18,5 +18,23 @@ namespace AMS.API.Controllers
         {
             return Ok("hello world Test");
         }
+
+        [HttpGet("cpu")]
+        public IActionResult StressCpu(int seconds = 30)
+        {
+            var endTime = DateTime.UtcNow.AddSeconds(seconds);
+    
+            // Jalankan CPU-bound task di background thread
+            Parallel.For(0, Environment.ProcessorCount, i =>
+            {
+                while (DateTime.UtcNow < endTime)
+                {
+                    // Loop matematis sederhana
+                    double x = Math.Sqrt(new Random().Next());
+                }
+            });
+    
+            return Ok($"CPU stress for {seconds} seconds started.");
+        }
     }
 }

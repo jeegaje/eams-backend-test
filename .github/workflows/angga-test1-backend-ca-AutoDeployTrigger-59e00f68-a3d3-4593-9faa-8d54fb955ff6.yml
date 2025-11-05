@@ -24,6 +24,14 @@ jobs:
       - name: Checkout to the branch
         uses: actions/checkout@v2
 
+      - name: Install .NET SQL Cache tool
+        run: |
+          dotnet tool install --global dotnet-sql-cache --version 8.0.8
+
+      - name: Create SQL Cache table
+        run: |
+          dotnet sql-cache create "${{ secrets.DB_CONNECTION_STRING_STAGING }}" dbo CacheTable
+
       - name: Run EF Core Migrations
         run: |
           dotnet tool restore

@@ -30,7 +30,7 @@ jobs:
 
       - name: Create SQL Cache table
         run: |
-          dotnet sql-cache create "${{ secrets.DB_CONNECTION_STRING_STAGING }}" dbo CacheTable
+          dotnet sql-cache create "${{ secrets.DB_CONNECTION_STRING_STAGING }}" dbo CacheTable || echo "CacheTable already exists, skipping creation."
 
       - name: Run EF Core Migrations
         run: |

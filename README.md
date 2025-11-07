@@ -35,7 +35,7 @@ The EAMS-BFF is a .NET Core-based intermediate API layer designed to serve the E
 - 🔄 **API Aggregation**: Combines multiple Core API calls into optimized endpoints
 - 🎯 **UI-Specific Transformation**: Tailors backend data for SPA consumption (DTOs)
 - 📊 **Monitoring**: Integrated with Azure Application Insights
-- 🔧 **CI/CD**: Automated pipelines via Azure DevOps or GitHub Actions
+- 🔧 **CI/CD**: Automated pipelines via Azure DevOps or GitHub Actions 
 
 ---
 

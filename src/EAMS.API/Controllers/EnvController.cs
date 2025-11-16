@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EAMS.Domain.Entities;
+using EAMS.Infrastructure.Data;
+using EAMS.API.DTOs;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,13 +64,17 @@ namespace AMS.API.Controllers
             }
 
             // Map to DTO if available
-            var result = top5Accommodations.Select(a => new DTOs.AccommodationDto
+            var result = top5Accommodations.Select(a => new AccommodationDto
             {
-                Id = a.Id,
                 Name = a.Name,
-                Description = a.Description,
-                Address = a.Address,
-                // Tambahkan properti lain sesuai kebutuhan
+                Street = a.Street,
+                Suburb = a.Suburb,
+                Postcode = a.Postcode,
+                State = a.State,
+                Region = a.Region,
+                Phone = a.Phone,
+                Email = a.Email,
+                Website = a.Website
             }).ToList();
 
             return Ok(result);

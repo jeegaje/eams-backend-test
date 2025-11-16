@@ -10,6 +10,12 @@ namespace AMS.API.Controllers
     [Route("api/[controller]")]
     public class EnvController : ControllerBase
     {
+        private readonly EamsDbContext _context;
+
+        public EnvController(EamsDbContext context)
+        {
+            _context = context;
+        }
         [HttpGet]
         public IActionResult GetEnv()
         {
@@ -40,22 +46,32 @@ namespace AMS.API.Controllers
             return Ok($"CPU stress for {seconds} seconds started.");
         }
 
-        // [HttpGet("accommodations/top5")]
-        // public async Task<IActionResult> GetTop5Accommodations()
-        // {
-        //     // Fetching the top 5 accommodations ordered by Name or any other property you prefer
-        //     var top5Accommodations = await _context.Accommodations
-        //         .Where(a => !a.Inactive)  // Optional: Exclude inactive accommodations
-        //         .OrderBy(a => a.Name)     // You can modify this to order by other criteria, e.g., Rating, Price
-        //         .Take(5)
-        //         .ToListAsync();
+        [HttpGet("accommodations/top5")]
+        public async Task<IActionResult> GetTop5Accommodations()
+        {
+            // Fetching the top 5 accommodations ordered by Name or any other property you prefer
+            var top5Accommodations = await _context.Accommodations
+                .Where(a => !a.Inactive)
+                .OrderBy(a => a.Name)
+                .Take(5)
+                .ToListAsync();
 
-        //     if (top5Accommodations == null || !top5Accommodations.Any())
-        //     {
-        //         return NotFound("No accommodations found.");
-        //     }
+            if (top5Accommodations == null || !top5Accommodations.Any())
+            {
+                return NotFound("No accommodations found.");
+            }
 
-        //     return Ok(top5Accommodations);
-        // }
+            // Map to DTO if available
+            var result = top5Accommodations.Select(a => new DTOs.AccommodationDto
+            {
+                Id = a.Id,
+                Name = a.Name,
+                Description = a.Description,
+                Address = a.Address,
+                // Tambahkan properti lain sesuai kebutuhan
+            }).ToList();
+
+            return Ok(result);
+        }
     }
 }

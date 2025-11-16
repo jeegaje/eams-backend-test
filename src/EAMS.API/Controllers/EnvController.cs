@@ -40,22 +40,22 @@ namespace AMS.API.Controllers
             return Ok($"CPU stress for {seconds} seconds started.");
         }
 
-        [HttpGet("accommodations/top5")]
-        public async Task<IActionResult> GetTop5Accommodations()
-        {
-            // Fetching the top 5 accommodations ordered by Name or any other property you prefer
-            var top5Accommodations = await _context.Accommodations
-                .Where(a => !a.Inactive)  // Optional: Exclude inactive accommodations
-                .OrderBy(a => a.Name)     // You can modify this to order by other criteria, e.g., Rating, Price
-                .Take(5)
-                .ToListAsync();
+        // [HttpGet("accommodations/top5")]
+        // public async Task<IActionResult> GetTop5Accommodations()
+        // {
+        //     // Fetching the top 5 accommodations ordered by Name or any other property you prefer
+        //     var top5Accommodations = await _context.Accommodations
+        //         .Where(a => !a.Inactive)  // Optional: Exclude inactive accommodations
+        //         .OrderBy(a => a.Name)     // You can modify this to order by other criteria, e.g., Rating, Price
+        //         .Take(5)
+        //         .ToListAsync();
 
-            if (top5Accommodations == null || !top5Accommodations.Any())
-            {
-                return NotFound("No accommodations found.");
-            }
+        //     if (top5Accommodations == null || !top5Accommodations.Any())
+        //     {
+        //         return NotFound("No accommodations found.");
+        //     }
 
-            return Ok(top5Accommodations);
-        }
+        //     return Ok(top5Accommodations);
+        // }
     }
 }

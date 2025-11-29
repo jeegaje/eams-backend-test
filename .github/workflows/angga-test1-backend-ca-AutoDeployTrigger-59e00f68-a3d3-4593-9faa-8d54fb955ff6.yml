@@ -24,6 +24,13 @@ jobs:
       - name: Checkout to the branch
         uses: actions/checkout@v2
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_SUBSCRIPTION_ID }}
+
       - name: Install .NET SQL Cache tool
         run: |
           dotnet tool install --global dotnet-sql-cache --version 8.0.8
@@ -38,13 +45,6 @@ jobs:
           dotnet ef database update --project src/EAMS.Infrastructure --startup-project src/EAMS.API
         env:
           ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING_STAGING }}
-
-      - name: Azure Login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.ANGGATEST1BACKENDCA_AZURE_SUBSCRIPTION_ID }}
 
       - name: Login to Azure Container Registry with proper authentication
         run: |
@@ -66,6 +66,7 @@ jobs:
           containerAppName: angga-test1-backend-ca
           resourceGroup: angga-test1-rg
           imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
+
 
 
 

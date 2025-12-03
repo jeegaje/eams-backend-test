@@ -99,5 +99,3 @@ dotnet ef migrations add [MigrationName] --project src\EAMS.Infrastructure --sta
 # To update database
 dotnet ef database update --project src\EAMS.Infrastructure --startup-project src\EAMS.API
 ```
-
-

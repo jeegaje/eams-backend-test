@@ -36,7 +36,7 @@ jobs:
         reportgenerator -reports:"tests/EAMS.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
 
     - name: Upload coverage report as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-report
         path: coveragereport

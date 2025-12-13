@@ -75,7 +75,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: general
-          SLACK_COLOR: ${{ jobs.build-and-deploy.status }}
+          SLACK_COLOR: ${{ needs.build-and-deploy.result }}
           SLACK_ICON: https://github.com/azure.png?size=48
           SLACK_MESSAGE_ON_SUCCESS: |
             🚀 *Deployment Successful!*
@@ -103,6 +103,7 @@ jobs:
           SLACK_USERNAME: DevOps Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
+
 
 
 

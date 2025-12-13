@@ -71,13 +71,37 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: general
-          SLACK_COLOR: '#ff00ff'
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Success Deployment'
-          SLACK_TITLE: 'Deployment Notification'
-          SLACK_USERNAME: devops
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://github.com/azure.png?size=48
+          SLACK_MESSAGE_ON_SUCCESS: |
+            🚀 *Deployment Successful!*
+            
+            *Application:* angga-test1-backend-ca
+            *Image Tag:* ${{ github.sha }}
+            *Registry:* anggacontainerregistry.azurecr.io
+            *Environment:* Development
+            *Timestamp:* $(date -u)
+            
+            ✅ *Status:* Container App updated successfully!
+            *Image:* `angga-test1-backend-ca:${{ github.sha }}`
+
+            _Code is live and running in Azure Container Apps!_
+          SLACK_MESSAGE_ON_FAILURE: |
+            ⚠️ *Deployment Failed!*
+            
+            *Application:* angga-test1-backend-ca
+            *Environment:* Development
+            *Timestamp:* $(date -u)
+            
+            ❌ *Status:* Deployment encountered an error
+            *Commit SHA:* ${{ github.sha }}
+            
+            _Please check GitHub Actions logs for details_
+          SLACK_TITLE: 'Azure Deployment Success'
+          SLACK_USERNAME: DevOps Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
+
 
 
 

@@ -67,6 +67,19 @@ jobs:
           resourceGroup: angga-test1-rg
           imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
 
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: general
+          SLACK_COLOR: '#ff00ff'
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: 'Success Deployment'
+          SLACK_TITLE: 'Deployment Notification'
+          SLACK_USERNAME: devops
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    
+
+
 
 
 

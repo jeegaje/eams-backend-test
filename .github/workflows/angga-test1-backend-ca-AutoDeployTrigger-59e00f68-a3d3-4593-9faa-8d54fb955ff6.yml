@@ -65,8 +65,11 @@ jobs:
         with:
           containerAppName: angga-test1-backend-ca
           resourceGroup: angga-test1-rg
-          imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
+          imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.shas }}
 
+  slack-notification:
+    runs-on: ubuntu-latest
+    steps:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
@@ -99,6 +102,7 @@ jobs:
           SLACK_USERNAME: DevOps Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
+
 
 
 

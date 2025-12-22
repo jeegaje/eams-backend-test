@@ -35,6 +35,14 @@ jobs:
       run: |
         reportgenerator -reports:"src/EAMS.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:HtmlInline
 
+    - name: Generate code coverage report (Markdown)
+      run: |
+        reportgenerator -reports:"src/EAMS.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Markdown
+
+    - name: Add coverage markdown to job summary
+      run: |
+        cat coveragereport/Summary.md >> $GITHUB_STEP_SUMMARY
+
     - name: Upload coverage report as artifact
       uses: actions/upload-artifact@v4
       with:

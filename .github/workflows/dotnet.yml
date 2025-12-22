@@ -37,7 +37,7 @@ jobs:
 
     - name: Add coverage markdown to job summary
       run: |
-        cat coveragereport/Summary.md >> $GITHUB_STEP_SUMMARY
+        cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
 
     - name: Upload coverage report as artifact
       uses: actions/upload-artifact@v4

@@ -33,7 +33,7 @@ jobs:
     
     - name: Generate code coverage report
       run: |
-        reportgenerator -reports:"src/EAMS.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:HtmlInline;MarkdownSummaryGithub
+        reportgenerator -reports:"src/EAMS.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" '-reporttypes:HtmlInline;MarkdownSummaryGithub'
 
     - name: Add coverage markdown to job summary
       run: |

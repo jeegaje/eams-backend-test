@@ -8,7 +8,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  coverage-report:
 
     runs-on: ubuntu-latest
 
@@ -33,11 +33,7 @@ jobs:
     
     - name: Generate code coverage report
       run: |
-        reportgenerator -reports:"src/EAMS.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:HtmlInline
-
-    - name: Generate code coverage report (Markdown)
-      run: |
-        reportgenerator -reports:"src/EAMS.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Markdown
+        reportgenerator -reports:"src/EAMS.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:HtmlInline;MarkdownSummaryGithub
 
     - name: Add coverage markdown to job summary
       run: |

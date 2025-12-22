@@ -8,7 +8,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  coverage-report:
 
     runs-on: ubuntu-latest
 
@@ -23,5 +23,24 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       
-    - name: Test
-      run: dotnet test --verbosity normal
+    - name: Run tests with coverage
+      run: |
+        dotnet test --collect:"Xplat Code Coverage"
+
+    - name: Install reportgenerator global tool
+      run: |
+        dotnet tool install --global dotnet-reportgenerator-globaltool
+    
+    - name: Generate code coverage report
+      run: |
+        reportgenerator -reports:"src/EAMS.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" '-reporttypes:HtmlInline;MarkdownSummaryGithub'
+
+    - name: Add coverage markdown to job summary
+      run: |
+        cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+
+    - name: Upload coverage report as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coveragereport

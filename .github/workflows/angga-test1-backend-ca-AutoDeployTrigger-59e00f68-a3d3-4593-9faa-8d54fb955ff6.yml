@@ -14,6 +14,29 @@ on:
   workflow_dispatch:      
 
 jobs:
+  notify-start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Notification (Start)
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: eams-staging
+          SLACK_COLOR: '#439FE0'
+          SLACK_ICON: https://github.com/azure.png?size=48
+          SLACK_MESSAGE: |
+            🟢 *Deployment Started!*
+            
+            *Application:* angga-test1-backend-ca
+            *Branch:* `${{ github.ref }}`
+            *Commit SHA:* `${{ github.sha }}`
+            *Triggered by:* `${{ github.actor }}`
+            *Environment:* Development
+
+            _Deployment process has started. Please wait for completion updates._
+          SLACK_TITLE: 'Azure Deployment Started'
+          SLACK_USERNAME: DevOps Bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions: 
@@ -75,7 +98,7 @@ jobs:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_CHANNEL: general
+          SLACK_CHANNEL: eams-staging
           SLACK_COLOR: ${{ needs.build-and-deploy.result }}
           SLACK_ICON: https://github.com/azure.png?size=48
           SLACK_MESSAGE_ON_SUCCESS: |
@@ -103,3 +126,4 @@ jobs:
           SLACK_TITLE: 'Azure Deployment Success'
           SLACK_USERNAME: DevOps Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+

@@ -23,7 +23,7 @@ The EAMS-BFF is a .NET Core-based intermediate API layer designed to serve the E
 
 ## 🔐 Authentication & Security
 
-- **Identity Provider**: Azure Entra External ID (B2C)
+- **Identity Provider**: Azure Entra External ID (B2C)ads
 - **Token Management**: JWTs issued by Entra ID, managed by BFF
 - **Secrets Management**: Azure Key Vault
 - **Network Security**: Azure VNet integration and private endpoints (recommended)

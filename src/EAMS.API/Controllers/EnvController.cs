@@ -79,7 +79,7 @@ namespace AMS.API.Controllers
                 Website = a.Website
             }).ToList();
 
-            _logger.LogInformation("Logger is working... accessing accommodations/top5");
+            _logger.LogInformation("{ action: 'view_accommodation', accommodationId: A, userId: B, organisationId: C }");
             _logger.LogWarning("An example of a Warning trace..");
             _logger.LogError("An example of an Error level message");
 

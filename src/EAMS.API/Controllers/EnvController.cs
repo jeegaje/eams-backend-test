@@ -80,6 +80,8 @@ namespace AMS.API.Controllers
             }).ToList();
 
             _logger.LogInformation("Logger is working... accessing accommodations/top5");
+            _logger.LogWarning("An example of a Warning trace..");
+            _logger.LogError("An example of an Error level message");
 
             return Ok(result);
         }

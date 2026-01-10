@@ -13,10 +13,12 @@ namespace AMS.API.Controllers
     public class EnvController : ControllerBase
     {
         private readonly EamsDbContext _context;
+        private readonly ILogger<EnvController> _logger;
 
-        public EnvController(EamsDbContext context)
+        public EnvController(EamsDbContext context, ILogger<EnvController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         [HttpGet]
         public IActionResult GetEnv()
@@ -76,6 +78,8 @@ namespace AMS.API.Controllers
                 Email = a.Email,
                 Website = a.Website
             }).ToList();
+
+            _logger.LogInformation("Logger is working... accessing accommodations/top5");
 
             return Ok(result);
         }

@@ -2,7 +2,7 @@
 
 The EAMS-BFF is a .NET Core-based intermediate API layer designed to serve the Emergency Accommodation Management System (EAMS) Single Page Application (SPA). It aggregates and transforms data from the Core API, manages authentication flows, and optimizes communication between the frontend and backend services.
 
-## 🚀 Purpose
+## 🚀 Purpose   
 
 - Serve UI-specific data to the SPA with minimal network chattiness.
 - Handle authentication and token management via Azure Entra ID (B2C).

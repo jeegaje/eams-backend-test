@@ -14,28 +14,28 @@ on:
   workflow_dispatch:      
 
 jobs:
-  notify-start:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Slack Notification (Start)
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: eams-staging
-          SLACK_COLOR: '#439FE0'
-          SLACK_ICON: https://github.com/azure.png?size=48
-          SLACK_MESSAGE: |
-            🟢 *Deployment Started!*
+  # notify-start:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Slack Notification (Start)
+  #       uses: rtCamp/action-slack-notify@v2
+  #       env:
+  #         SLACK_CHANNEL: eams-staging
+  #         SLACK_COLOR: '#439FE0'
+  #         SLACK_ICON: https://github.com/azure.png?size=48
+  #         SLACK_MESSAGE: |
+  #           🟢 *Deployment Started!*
             
-            *Application:* angga-test1-backend-ca
-            *Branch:* `${{ github.ref }}`
-            *Commit SHA:* `${{ github.sha }}`
-            *Triggered by:* `${{ github.actor }}`
-            *Environment:* Development
+  #           *Application:* angga-test1-backend-ca
+  #           *Branch:* `${{ github.ref }}`
+  #           *Commit SHA:* `${{ github.sha }}`
+  #           *Triggered by:* `${{ github.actor }}`
+  #           *Environment:* Development
 
-            _Deployment process has started. Please wait for completion updates._
-          SLACK_TITLE: 'Azure Deployment Started'
-          SLACK_USERNAME: DevOps Bot
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  #           _Deployment process has started. Please wait for completion updates._
+  #         SLACK_TITLE: 'Azure Deployment Started'
+  #         SLACK_USERNAME: DevOps Bot
+  #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           
   build-and-deploy:
     runs-on: self-hosted
@@ -90,41 +90,41 @@ jobs:
           resourceGroup: angga-test1-rg
           imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.shas }}
 
-  slack-notification:
-    runs-on: ubuntu-latest
-    needs: build-and-deploy
-    if: always()
-    steps:
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: eams-staging
-          SLACK_COLOR: ${{ needs.build-and-deploy.result }}
-          SLACK_ICON: https://github.com/azure.png?size=48
-          SLACK_MESSAGE_ON_SUCCESS: |
-            🚀 *Deployment Successful!*
+  # slack-notification:
+  #   runs-on: ubuntu-latest
+  #   needs: build-and-deploy
+  #   if: always()
+  #   steps:
+  #     - name: Slack Notification
+  #       uses: rtCamp/action-slack-notify@v2
+  #       env:
+  #         SLACK_CHANNEL: eams-staging
+  #         SLACK_COLOR: ${{ needs.build-and-deploy.result }}
+  #         SLACK_ICON: https://github.com/azure.png?size=48
+  #         SLACK_MESSAGE_ON_SUCCESS: |
+  #           🚀 *Deployment Successful!*
             
-            *Application:* angga-test1-backend-ca
-            *Image Tag:* ${{ github.sha }}
-            *Registry:* anggacontainerregistry.azurecr.io
-            *Environment:* Development
+  #           *Application:* angga-test1-backend-ca
+  #           *Image Tag:* ${{ github.sha }}
+  #           *Registry:* anggacontainerregistry.azurecr.io
+  #           *Environment:* Development
             
-            ✅ *Status:* Container App updated successfully!
-            *Image:* `angga-test1-backend-ca:${{ github.sha }}`
+  #           ✅ *Status:* Container App updated successfully!
+  #           *Image:* `angga-test1-backend-ca:${{ github.sha }}`
 
-            _Code is live and running in Azure Container Apps!_
-          SLACK_MESSAGE_ON_FAILURE: |
-            ⚠️ *Deployment Failed!*
+  #           _Code is live and running in Azure Container Apps!_
+  #         SLACK_MESSAGE_ON_FAILURE: |
+  #           ⚠️ *Deployment Failed!*
             
-            *Application:* angga-test1-backend-ca
-            *Environment:* Development
+  #           *Application:* angga-test1-backend-ca
+  #           *Environment:* Development
             
-            ❌ *Status:* Deployment encountered an error
-            *Commit SHA:* ${{ github.sha }}
+  #           ❌ *Status:* Deployment encountered an error
+  #           *Commit SHA:* ${{ github.sha }}
             
-            _Please check GitHub Actions logs for details_
-          SLACK_TITLE: 'Azure Deployment Success'
-          SLACK_USERNAME: DevOps Bot
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  #           _Please check GitHub Actions logs for details_
+  #         SLACK_TITLE: 'Azure Deployment Success'
+  #         SLACK_USERNAME: DevOps Bot
+  #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
 

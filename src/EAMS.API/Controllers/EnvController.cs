@@ -79,9 +79,7 @@ namespace AMS.API.Controllers
                 Website = a.Website
             }).ToList();
 
-            _logger.LogInformation("{ action: 'view_accommodation', accommodationId: A, userId: B, organisationId: C }");
-            _logger.LogWarning("An example of a Warning trace..");
-            _logger.LogError("An example of an Error level message");
+        _logger.LogInformation("[ANALYTICS] {{ \"action\": \"viewAccommodation\", \"accommodationId\": \"13\", \"userId\": \"11\", \"organisationId\": \"14\" }}");
 
             return Ok(result);
         }

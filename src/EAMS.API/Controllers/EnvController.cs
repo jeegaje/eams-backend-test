@@ -79,17 +79,17 @@ namespace AMS.API.Controllers
                 Website = a.Website
             }).ToList();
 
-            id = 13;
-            userId = 11;
-            organisationId = null;
+            int id = 13;
+            int userId = 11;
+            int? organisationId = null;
             _logger.LogInformation(
-            "[ANALYTICS] {@Analytics}",
-            new {
-                action = "testingAccommodation",
-                accommodationId = id,
-                userId = userId,
-                organisationId = organisationId
-            });
+                "[ANALYTICS] {@Analytics}",
+                new {
+                    action = "testingAccommodation",
+                    accommodationId = id,
+                    userId = userId,
+                    organisationId = organisationId
+                });
 
         _logger.LogInformation("{ \"action\": \"viewAccommodation\", \"accommodationId\": \"13\", \"userId\": \"11\", \"organisationId\": \"14\" }");
          _logger.LogInformation("{{ \"action\": \"{action}\", \"accommodationId\": \"{accommodationId}\", \"userId\": \"{userId}\", \"organisationId\": \"{organisationId}\" }}", "viewAccommodation", "13", "11", "14");

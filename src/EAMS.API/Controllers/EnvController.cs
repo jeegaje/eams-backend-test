@@ -80,6 +80,7 @@ namespace AMS.API.Controllers
             }).ToList();
 
         _logger.LogInformation("{ \"action\": \"viewAccommodation\", \"accommodationId\": \"13\", \"userId\": \"11\", \"organisationId\": \"14\" }");
+         _logger.LogInformation("{{ \"action\": \"{action}\", \"accommodationId\": \"{accommodationId}\", \"userId\": \"{userId}\", \"organisationId\": \"{organisationId}\" }}", "viewAccommodation", "13", "11", "14");
         _logger.LogInformation("{{ \"action\": \"editAccommodation\", \"accommodationId\": \"13\", \"userId\": \"11\", \"organisationId\": \"14\" }}");
             return Ok(result);
         }

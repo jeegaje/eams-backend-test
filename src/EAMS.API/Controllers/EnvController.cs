@@ -83,7 +83,7 @@ namespace AMS.API.Controllers
             int userId = 11;
             int? organisationId = null;
             _logger.LogInformation(
-                "[ANALYTICS] {@Analytics}",
+                "{@Analytics}",
                 new {
                     action = "testingAccommodation",
                     accommodationId = id,

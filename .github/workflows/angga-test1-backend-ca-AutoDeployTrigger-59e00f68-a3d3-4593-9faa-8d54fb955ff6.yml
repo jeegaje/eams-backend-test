@@ -71,13 +71,13 @@ jobs:
 
       - name: Login to Azure Container Registry with proper authentication
         run: |
-          az acr login --name anggacontainerregistry
+          az acr login --name anggatest1cr
 
       - name: Build and push Docker images with multiple tags
         run: |
           docker build \
-            -t anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }} \
-            -t anggacontainerregistry.azurecr.io/angga-test1-backend-ca:latest-development \
+            -t anggatest1cr.azurecr.io/angga-test1-backend-ca:${{ github.sha }} \
+            -t anggatest1cr.azurecr.io/angga-test1-backend-ca:latest-development \
             .
     
           docker push anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
@@ -88,7 +88,7 @@ jobs:
         with:
           containerAppName: angga-test1-backend-ca
           resourceGroup: angga-test1-rg
-          imageToDeploy: anggacontainerregistry.azurecr.io/angga-test1-backend-ca:${{ github.shas }}
+          imageToDeploy: anggatest1cr.azurecr.io/angga-test1-backend-ca:${{ github.sha }}
 
   # slack-notification:
   #   runs-on: ubuntu-latest
@@ -126,5 +126,6 @@ jobs:
   #         SLACK_TITLE: 'Azure Deployment Success'
   #         SLACK_USERNAME: DevOps Bot
   #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
 
 

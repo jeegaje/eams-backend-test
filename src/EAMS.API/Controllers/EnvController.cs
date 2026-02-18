@@ -99,4 +99,55 @@ namespace AMS.API.Controllers
             return Ok(result);
         }
     }
+
+    [ApiController]
+    [Route("api/health")]
+    public class HealthController : ControllerBase
+    {
+        private readonly EamsDbContext _context;
+
+        public HealthController(EamsDbContext context)
+        {
+            _context = context;
+        }
+
+        /// <summary>
+        /// Lightweight health check (HEAD)
+        /// </summary>
+        [HttpHead]
+        public IActionResult HeadHealth()
+        {
+            return Ok();
+        }
+
+        /// <summary>
+        /// Optional GET health check (for manual testing)
+        /// </summary>
+        [HttpGet]
+        public IActionResult GetHealth()
+        {
+            return Ok(new
+            {
+                status = "Healthy",
+                timestamp = DateTime.UtcNow
+            });
+        }
+
+        /// <summary>
+        /// Deep health check (DB connectivity)
+        /// </summary>
+        [HttpHead("db")]
+        public async Task<IActionResult> HeadDbHealth()
+        {
+            try
+            {
+                await _context.Database.ExecuteSqlRawAsync("SELECT 1");
+                return Ok();
+            }
+            catch
+            {
+                return StatusCode(503); // Service Unavailable
+            }
+        }
+    }
 }

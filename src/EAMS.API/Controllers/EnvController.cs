@@ -29,7 +29,7 @@ namespace AMS.API.Controllers
         [HttpGet("test")]
         public IActionResult Test()
         {
-            return Ok("hello world Test");
+            return Ok("hello world Test newer image");
         }
 
         [HttpGet("cpu")]
